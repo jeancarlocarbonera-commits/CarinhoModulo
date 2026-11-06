@@ -1,0 +1,151 @@
+* {
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0d0e12;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Barra Superior */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  height: 45px;
+}
+
+.top-bar h2 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.status-offline { background: #d9534f; color: #fff; }
+.status-online { background: #5cb85c; color: #fff; }
+
+/* Dashboard de Telemetria */
+.dashboard {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 8px;
+  background: #151821;
+}
+
+.telemetry-card {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 4px 15px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.telemetry-val {
+  font-size: 18px;
+  font-weight: bold;
+  color: #00e5ff;
+}
+
+.telemetry-lbl {
+  font-size: 9px;
+  color: #888;
+  text-transform: uppercase;
+}
+
+/* Cockpit Proporcional e Otimizado para Horizontal */
+.cockpit-container {
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 30px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Volante Maior Proporcionalmente (~260px) */
+.steering-wrapper {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  max-width: 45vw;
+  max-height: 45vw;
+}
+
+.steering-wheel {
+  width: 100%;
+  height: 100%;
+  border: 20px solid #2a2e3d;
+  border-top-color: #00e5ff;
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 0 0 25px rgba(0,0,0,0.8);
+  cursor: grab;
+  transition: transform 0.05s ease-out;
+}
+
+.steering-wheel::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 14px;
+  background: #2a2e3d;
+  transform: translateY(-50%);
+}
+
+/* Pedais Maiores e Confortáveis para o Pé/Polegar */
+.pedals-container {
+  display: flex;
+  gap: 15px;
+  align-items: flex-end;
+}
+
+.pedal {
+  width: 85px;
+  height: 170px;
+  max-height: 50vh;
+  background: linear-gradient(180deg, #333 0%, #111 100%);
+  border: 3px solid #444;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 13px;
+  color: #aaa;
+  box-shadow: inset 0 3px 6px rgba(255,255,255,0.2), 0 6px 20px rgba(0,0,0,0.6);
+  cursor: pointer;
+  transition: transform 0.1s ease, background 0.1s ease;
+}
+
+.pedal:active {
+  transform: scale(0.95);
+  background: linear-gradient(180deg, #222 0%, #000 100%);
+}
+
+.pedal-acc:active { border-color: #5cb85c; color: #5cb85c; }
+.pedal-brake:active { border-color: #d9534f; color: #d9534f; }

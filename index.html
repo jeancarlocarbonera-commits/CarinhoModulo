@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Cockpit Controle Remoto ESP</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="top-bar">
+    <h2>Controle Remoto ESP</h2>
+    <div id="status" class="status-badge status-offline">Simulação Offline</div>
+  </div>
+
+  <div class="dashboard">
+    <div class="telemetry-card">
+      <div id="val-velocidade" class="telemetry-val">0%</div>
+      <div class="telemetry-lbl">Potência</div>
+    </div>
+    <div class="telemetry-card">
+      <div id="val-direcao" class="telemetry-val">0°</div>
+      <div class="telemetry-lbl">Esterço</div>
+    </div>
+  </div>
+
+  <div class="cockpit-container">
+    <!-- Volante -->
+    <div class="steering-wrapper">
+      <div id="volante" class="steering-wheel"></div>
+    </div>
+
+    <!-- Pedais -->
+    <div class="pedals-container">
+      <div class="pedal pedal-brake" id="btn-re">RÉ / FREIO</div>
+      <div class="pedal pedal-acc" id="btn-acelerador">ACELERAR</div>
+    </div>
+  </div>
+
+  <!-- Scripts Modulares -->
+  <script src="functions.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
