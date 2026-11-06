@@ -1,0 +1,35 @@
+CONTROLE CARRINHO ESP — VERSÃO PWA
+
+O QUE FOI CORRIGIDO
+- Manifesto PWA completo, com ícones 192x192 e 512x512.
+- Service Worker para guardar a interface e permitir que ela abra sem internet depois do primeiro acesso.
+- Botão “Instalar aplicativo”, com instruções alternativas quando o navegador não oferece instalação automática.
+- Volante atualizado para Pointer Events (mouse/toque), com captura do ponteiro e touch-action: none.
+- Pedais atualizados para Pointer Events.
+- WebSocket ativado para conectar ao IP e à porta configurados no config.js.
+- Status de conexão e tentativa automática de reconexão.
+
+IMPORTANTE SOBRE A INSTALAÇÃO
+Não envie apenas o index.html para seus amigos e não peça para abrirem o arquivo baixado. Isso abre uma página local no Chrome, não instala um PWA.
+
+Para instalar como aplicativo:
+1. Publique TODOS os arquivos desta pasta em um site com HTTPS.
+2. Abra o endereço HTTPS pelo Chrome/Edge (Android/Windows) ou pelo Safari no iPhone.
+3. Toque em “Instalar aplicativo” ou use o menu do navegador.
+4. Depois da primeira abertura, aguarde o carregamento e a instalação do Service Worker. Assim a interface ficará guardada para uso sem internet.
+5. Quando for usar o carrinho, conecte o celular ao Wi-Fi criado pelo ESP32 e abra o aplicativo instalado.
+
+No iPhone/iPad, use Safari > Compartilhar > Adicionar à Tela de Início. O evento de instalação automática beforeinstallprompt não é suportado no iOS.
+
+CONEXÃO COM O ESP32
+- IP padrão: 192.168.4.1
+- Porta WebSocket: 81
+- SSID e senha do Wi-Fi: confira no arquivo codigo_esp_carrinho.ino.
+- Se alterar IP ou porta no firmware, altere também config.js.
+- Em navegadores atuais, a página hospedada em HTTPS pode pedir permissão para acessar a rede local. Permita essa conexão para o controle conversar com o ESP32.
+
+LIMITE DO FIRMWARE ATUAL
+O firmware enviado originalmente não controla um servo de direção. A função ajustarDirecao() apenas imprime o ângulo no Monitor Serial. Portanto, esta versão faz o volante da TELA girar e envia o valor pelo WebSocket, mas as rodas dianteiras do carrinho só irão virar quando houver um servo/atuador ligado e o firmware for adaptado ao modelo e ao pino usados. Não inventei um pino de servo porque isso depende da sua montagem.
+
+CUIDADO
+Teste o carrinho com as rodas suspensas e em uma área livre, em baixa velocidade. Confirme primeiro que o comando de parada funciona.

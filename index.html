@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0d0e12">
+  <meta name="description" content="Controle remoto em formato de cockpit para carrinho com ESP32.">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Controle Carrinho ESP</title>
+
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="top-bar">
+    <h2>Controle Remoto ESP</h2>
+    <div class="top-actions">
+      <button id="btn-instalar" class="btn-instalar" type="button">📲 Instalar aplicativo</button>
+      <div id="status" class="status-badge status-offline" role="status" aria-live="polite">Desconectado</div>
+    </div>
+  </div>
+
+  <div class="dashboard">
+    <div class="telemetry-card">
+      <div id="val-velocidade" class="telemetry-val">0%</div>
+      <div class="telemetry-lbl">Potência</div>
+    </div>
+    <div class="telemetry-card">
+      <div id="val-direcao" class="telemetry-val">0°</div>
+      <div class="telemetry-lbl">Esterço</div>
+    </div>
+  </div>
+
+  <main class="cockpit-container">
+    <div class="steering-wrapper">
+      <div id="volante" class="steering-wheel" role="slider" aria-label="Volante" aria-valuemin="-90" aria-valuemax="90" aria-valuenow="0" tabindex="0">
+        <div class="steering-center"></div>
+      </div>
+    </div>
+
+    <div class="pedals-container">
+      <button class="pedal pedal-brake" id="btn-re" type="button">RÉ / FREIO</button>
+      <button class="pedal pedal-acc" id="btn-acelerador" type="button">ACELERAR</button>
+    </div>
+  </main>
+
+  <div id="install-help" class="install-modal hidden" role="dialog" aria-modal="true" aria-labelledby="install-title">
+    <div class="install-panel">
+      <h3 id="install-title">Instalar Controle Carrinho ESP</h3>
+      <p id="install-message">Siga as instruções do navegador para adicionar o aplicativo à tela inicial.</p>
+      <button id="btn-fechar-ajuda" class="btn-fechar" type="button">Entendi</button>
+    </div>
+  </div>
+
+  <script src="./config.js"></script>
+  <script src="./functions.js"></script>
+  <script src="./main.js"></script>
+</body>
+</html>
