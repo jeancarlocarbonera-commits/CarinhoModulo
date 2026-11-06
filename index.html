@@ -4,7 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Cockpit Controle Remoto ESP</title>
+  
+  <!-- Declaração do App (PWA) -->
   <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0d0e12">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,7 +18,7 @@
   <div class="top-bar">
     <h2>Controle Remoto ESP</h2>
     <div class="top-actions">
-      <!-- Botão para baixar/instalar o App (só aparece quando o celular permite) -->
+      <!-- Botão de Download/Instalação do App -->
       <button id="btn-instalar" class="btn-instalar hidden">📥 Baixar App</button>
       <div id="status" class="status-badge status-offline">Simulação Offline</div>
     </div>
@@ -30,7 +36,7 @@
   </div>
 
   <div class="cockpit-container">
-    <!-- Volante Polido -->
+    <!-- Volante Polido Esportivo -->
     <div class="steering-wrapper">
       <div id="volante" class="steering-wheel">
         <div class="steering-center"></div>

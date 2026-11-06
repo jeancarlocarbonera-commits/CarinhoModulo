@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   conectarWebSocket();
 
-  // --- ELEMENTOS DA INTERFACE ---
   const btnAcelerar = document.getElementById('btn-acelerador');
   const btnRe = document.getElementById('btn-re');
   const displayVel = document.getElementById('val-velocidade');
@@ -9,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const displayDir = document.getElementById('val-direcao');
   const btnInstalar = document.getElementById('btn-instalar');
 
-  // --- TRAVA DE ORIENTAÇÃO HORIZONTAL E TELA CHEIA (ESTILO JOGO) ---
+  // --- TRAVA DE ORIENTAÇÃO HORIZONTAL (ESTILO JOGO) ---
   function forcarModoJogo() {
     if (screen.orientation && screen.orientation.lock) {
       screen.orientation.lock('landscape').catch(() => {});
@@ -25,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     eventoInstalacao = e;
-    btnInstalar.classList.remove('hidden');
+    btnInstalar.classList.remove('hidden'); // Mostra o botão na barra superior
   });
 
   btnInstalar.addEventListener('click', async () => {
@@ -84,7 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
     enviarComando('movimento', val);
   }
 
-  // Eventos de Clique / Touch nos Pedais
   btnAcelerar.addEventListener('mousedown', () => { atualizarMovimento(100); ativarVisualPedal('acelerar', true); });
   btnAcelerar.addEventListener('mouseup', () => { atualizarMovimento(0); ativarVisualPedal('acelerar', false); });
   btnAcelerar.addEventListener('mouseleave', () => { atualizarMovimento(0); ativarVisualPedal('acelerar', false); });
@@ -97,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
   btnRe.addEventListener('touchstart', (e) => { e.preventDefault(); atualizarMovimento(-100); ativarVisualPedal('re', true); });
   btnRe.addEventListener('touchend', () => { atualizarMovimento(0); ativarVisualPedal('re', false); });
 
-  // --- LÓGICA CORRIGIDA DO VOLANTE ---
+  // --- LÓGICA DO VOLANTE CORRIGIDA (SEM INVERSÃO) ---
   function atualizarVolanteVisual(angulo) {
     anguloAtual = angulo;
     volante.style.transform = `rotate(${anguloAtual}deg)`;
@@ -156,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('touchmove', girar);
   window.addEventListener('touchend', soltarVolante);
 
-  // --- CONTROLE POR TECLADO (PC: WASD ou SETAS) ---
+  // --- CONTROLE POR TECLADO (PC) ---
   function processarTeclado() {
     const usandoAcelerar = teclasPressionadas['w'] || teclasPressionadas['W'] || teclasPressionadas['ArrowUp'];
     const usandoRe = teclasPressionadas['s'] || teclasPressionadas['S'] || teclasPressionadas['ArrowDown'];
