@@ -1,9 +1,8 @@
 let socket;
-const espIP = "192.168.4.1"; // IP padrão do Access Point da ESP
 
 function conectarWebSocket() {
-  // Descomente a linha abaixo quando for testar direto na ESP:
-  // socket = new WebSocket(`ws://${espIP}:81/`);
+  // Quando for ligar na ESP real, descomente a linha abaixo:
+  // socket = new WebSocket(`ws://${CONFIG.ESP_IP}:${CONFIG.PORTA}/`);
 
   /*
   socket.onopen = () => {

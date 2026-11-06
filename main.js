@@ -7,6 +7,41 @@ document.addEventListener('DOMContentLoaded', () => {
   const displayVel = document.getElementById('val-velocidade');
   const volante = document.getElementById('volante');
   const displayDir = document.getElementById('val-direcao');
+  const btnInstalar = document.getElementById('btn-instalar');
+
+  // --- TRAVA DE ORIENTAÇÃO HORIZONTAL E TELA CHEIA (ESTILO JOGO) ---
+  function forcarModoJogo() {
+    if (screen.orientation && screen.orientation.lock) {
+      screen.orientation.lock('landscape').catch(() => {});
+    }
+  }
+
+  window.addEventListener('click', forcarModoJogo, { once: true });
+  window.addEventListener('touchstart', forcarModoJogo, { once: true });
+
+  // --- LÓGICA DO BOTÃO DE BAIXAR / INSTALAR APP (PWA) ---
+  let eventoInstalacao;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    eventoInstalacao = e;
+    btnInstalar.classList.remove('hidden');
+  });
+
+  btnInstalar.addEventListener('click', async () => {
+    if (eventoInstalacao) {
+      eventoInstalacao.prompt();
+      const { outcome } = await eventoInstalacao.userChoice;
+      if (outcome === 'accepted') {
+        btnInstalar.classList.add('hidden');
+      }
+      eventoInstalacao = null;
+    }
+  });
+
+  window.addEventListener('appinstalled', () => {
+    btnInstalar.classList.add('hidden');
+  });
 
   // --- ESTADO DOS CONTROLES ---
   const teclasPressionadas = {};
@@ -49,29 +84,20 @@ document.addEventListener('DOMContentLoaded', () => {
     enviarComando('movimento', val);
   }
 
-  // Eventos de Clique / Touch nos Pedais (Mouse)
+  // Eventos de Clique / Touch nos Pedais
   btnAcelerar.addEventListener('mousedown', () => { atualizarMovimento(100); ativarVisualPedal('acelerar', true); });
   btnAcelerar.addEventListener('mouseup', () => { atualizarMovimento(0); ativarVisualPedal('acelerar', false); });
+  btnAcelerar.addEventListener('mouseleave', () => { atualizarMovimento(0); ativarVisualPedal('acelerar', false); });
   btnAcelerar.addEventListener('touchstart', (e) => { e.preventDefault(); atualizarMovimento(100); ativarVisualPedal('acelerar', true); });
   btnAcelerar.addEventListener('touchend', () => { atualizarMovimento(0); ativarVisualPedal('acelerar', false); });
 
   btnRe.addEventListener('mousedown', () => { atualizarMovimento(-100); ativarVisualPedal('re', true); });
   btnRe.addEventListener('mouseup', () => { atualizarMovimento(0); ativarVisualPedal('re', false); });
+  btnRe.addEventListener('mouseleave', () => { atualizarMovimento(0); ativarVisualPedal('re', false); });
   btnRe.addEventListener('touchstart', (e) => { e.preventDefault(); atualizarMovimento(-100); ativarVisualPedal('re', true); });
   btnRe.addEventListener('touchend', () => { atualizarMovimento(0); ativarVisualPedal('re', false); });
 
-
-  // --- LÓGICA DO VOLANTE (MOUSE / TOUCH) ---
-  function getAnguloMouse(e) {
-    const rect = volante.getBoundingClientRect();
-    const centroX = rect.left + rect.width / 2;
-    const centroY = rect.top + rect.height / 2;
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    const rad = Math.atan2(clientY - centroY, clientX - centroX);
-    return rad * (180 / Math.PI);
-  }
-
+  // --- LÓGICA CORRIGIDA DO VOLANTE ---
   function atualizarVolanteVisual(angulo) {
     anguloAtual = angulo;
     volante.style.transform = `rotate(${anguloAtual}deg)`;
@@ -81,12 +107,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function iniciarGiro(e) {
     arrastando = true;
-    anguloInicial = getAnguloMouse(e) - anguloAtual;
+    const rect = volante.getBoundingClientRect();
+    const centroX = rect.left + rect.width / 2;
+    const centroY = rect.top + rect.height / 2;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    
+    const deltaX = clientX - centroX;
+    const deltaY = clientY - centroY;
+    anguloInicial = (Math.atan2(deltaY, deltaX) * (180 / Math.PI)) - anguloAtual;
   }
 
   function girar(e) {
     if (!arrastando) return;
-    let novoAngulo = getAnguloMouse(e) - anguloInicial;
+
+    const rect = volante.getBoundingClientRect();
+    const centroX = rect.left + rect.width / 2;
+    const centroY = rect.top + rect.height / 2;
+    
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+    const deltaX = clientX - centroX;
+    const deltaY = clientY - centroY;
+
+    let rad = Math.atan2(deltaY, deltaX);
+    let angulo = rad * (180 / Math.PI);
+    let novoAngulo = angulo - anguloInicial;
+
+    while (novoAngulo > 180) novoAngulo -= 360;
+    while (novoAngulo < -180) novoAngulo += 360;
+
     novoAngulo = Math.max(-90, Math.min(90, novoAngulo));
     atualizarVolanteVisual(Math.round(novoAngulo));
   }
@@ -105,13 +156,11 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('touchmove', girar);
   window.addEventListener('touchend', soltarVolante);
 
-
   // --- CONTROLE POR TECLADO (PC: WASD ou SETAS) ---
   function processarTeclado() {
     const usandoAcelerar = teclasPressionadas['w'] || teclasPressionadas['W'] || teclasPressionadas['ArrowUp'];
     const usandoRe = teclasPressionadas['s'] || teclasPressionadas['S'] || teclasPressionadas['ArrowDown'];
 
-    // Processa Aceleração / Ré e animação dos pedais
     if (usandoAcelerar) {
       atualizarMovimento(100);
       ativarVisualPedal('acelerar', true);
@@ -130,7 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
       atualizarMovimento(0);
     }
 
-    // Processa Direção (Esterço)
     if (!arrastando) {
       if (teclasPressionadas['a'] || teclasPressionadas['A'] || teclasPressionadas['ArrowLeft']) {
         atualizarVolanteVisual(-90);

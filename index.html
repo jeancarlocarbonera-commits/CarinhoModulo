@@ -2,15 +2,20 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Cockpit Controle Remoto ESP</title>
+  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <div class="top-bar">
     <h2>Controle Remoto ESP</h2>
-    <div id="status" class="status-badge status-offline">Simulação Offline</div>
+    <div class="top-actions">
+      <!-- Botão para baixar/instalar o App (só aparece quando o celular permite) -->
+      <button id="btn-instalar" class="btn-instalar hidden">📥 Baixar App</button>
+      <div id="status" class="status-badge status-offline">Simulação Offline</div>
+    </div>
   </div>
 
   <div class="dashboard">
@@ -25,9 +30,11 @@
   </div>
 
   <div class="cockpit-container">
-    <!-- Volante -->
+    <!-- Volante Polido -->
     <div class="steering-wrapper">
-      <div id="volante" class="steering-wheel"></div>
+      <div id="volante" class="steering-wheel">
+        <div class="steering-center"></div>
+      </div>
     </div>
 
     <!-- Pedais -->
@@ -38,6 +45,7 @@
   </div>
 
   <!-- Scripts Modulares -->
+  <script src="config.js"></script>
   <script src="functions.js"></script>
   <script src="main.js"></script>
 </body>

@@ -1,0 +1,9 @@
+{
+  "name": "Controle Carrinho ESP",
+  "short_name": "ControleESP",
+  "start_url": "index.html",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#0d0e12",
+  "theme_color": "#0d0e12"
+}

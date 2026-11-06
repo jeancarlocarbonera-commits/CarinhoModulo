@@ -5,6 +5,28 @@
   touch-action: manipulation;
 }
 
+/* Trava visual para forçar horizontal se o celular estiver em pé */
+@media screen and (orientation: portrait) {
+  body::before {
+    content: "Por favor, vire o celular na horizontal para jogar! 📱🔄";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #0d0e12;
+    color: #00e5ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 20px;
+    z-index: 99999;
+  }
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -31,6 +53,35 @@ body {
 .top-bar h2 {
   font-size: 16px;
   margin: 0;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Botão de Instalação do App */
+.btn-instalar {
+  background: #00e5ff;
+  color: #0d0e12;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
+  transition: transform 0.1s ease, background 0.1s ease;
+}
+
+.btn-instalar:active {
+  transform: scale(0.95);
+  background: #00b3cc;
+}
+
+.hidden {
+  display: none !important;
 }
 
 .status-badge {
@@ -73,7 +124,7 @@ body {
   text-transform: uppercase;
 }
 
-/* Cockpit Proporcional e Otimizado para Horizontal */
+/* Cockpit */
 .cockpit-container {
   flex: 1;
   display: flex;
@@ -85,7 +136,7 @@ body {
   margin: 0 auto;
 }
 
-/* Volante Maior Proporcionalmente (~260px) */
+/* Volante Polido Esportivo */
 .steering-wrapper {
   position: relative;
   width: 250px;
@@ -97,27 +148,45 @@ body {
 .steering-wheel {
   width: 100%;
   height: 100%;
-  border: 20px solid #2a2e3d;
-  border-top-color: #00e5ff;
+  border: 22px solid #1f2330;
+  border-top-color: #00e5ff; /* Marcador de topo racing */
   border-radius: 50%;
   position: relative;
-  box-shadow: 0 0 25px rgba(0,0,0,0.8);
+  box-shadow: 0 0 25px rgba(0,0,0,0.9), inset 0 0 10px rgba(0,0,0,0.8);
   cursor: grab;
   transition: transform 0.05s ease-out;
+  background: radial-gradient(circle, #151821 30%, #0d0e12 70%);
 }
 
+/* Haste Central do Volante */
 .steering-wheel::after {
   content: '';
   position: absolute;
   top: 50%;
   left: 0;
   right: 0;
-  height: 14px;
-  background: #2a2e3d;
+  height: 16px;
+  background: linear-gradient(180deg, #33394a 0%, #1f2330 100%);
   transform: translateY(-50%);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
-/* Pedais Maiores e Confortáveis para o Pé/Polegar */
+/* Centro Esportivo do Volante */
+.steering-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, #2a2e3d 0%, #151821 100%);
+  border: 3px solid #00e5ff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+}
+
+/* Pedais */
 .pedals-container {
   display: flex;
   gap: 15px;
